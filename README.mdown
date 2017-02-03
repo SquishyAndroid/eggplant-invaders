@@ -1,7 +1,9 @@
 
 ### What is this repository for? ###
 
-* Playing around with a Space Invader style game in Phaser.js using. I built in buttons for movement + fire to 
+* Playing around with a Space Invader style game in Phaser.js using. I built in buttons for movement + fire instead of using the keyboard to allow for mobile. 
+
+* As phaser.js needs a server to run, I added Node and Express for an easy way to quickly run the game.
 
 ### How to run locally ###
 
