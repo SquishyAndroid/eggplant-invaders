@@ -1,11 +1,13 @@
 
 ### What is this repository for? ###
 
-* Simple Express skeleton with handlbars for templating created using the Express Generator.
+* Playing around with a Space Invader style game in Phaser.js using. I built in buttons for movement + fire instead of using the keyboard to allow for mobile. 
+
+* As phaser.js needs a server to run, I added Node and Express for an easy way to quickly run the game.
 
 ### How to run locally ###
 
-* `git clone git@github.com:SquishyAndroid/express-skeleton.git`
+* `git clone git@github.com:SquishyAndroid/eggplant-invaders.git`
 * `cd node-app`
 * `npm install`
 * `npm start or DEBUG=express-skeleton* npm start`
@@ -20,3 +22,9 @@
 ### Who do I talk to? ###
 
 * Bradley Engelhardt <brad.engelhardt@gmail.com>
+
+### Credits ###
+
+* the base of the game is built off of Danbee's Space Invaders
+https://github.com/danbee/invaders
+* Phaser.js
