@@ -7,7 +7,7 @@
 
 ### How to run locally ###
 
-* `git clone git@github.com:SquishyAndroid/express-skeleton.git`
+* `git clone git@github.com:SquishyAndroid/eggplant-invaders.git`
 * `cd node-app`
 * `npm install`
 * `npm start or DEBUG=express-skeleton* npm start`
