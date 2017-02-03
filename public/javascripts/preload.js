@@ -9,8 +9,8 @@ function preload () {
   game.load.audio('explode', 'sounds/explode.wav');
   game.load.audio('bomb', 'sounds/bomb.wav');
 
-  game.load.image('startButton', 'images/button.png');
   game.load.image('moveLeftButton', 'images/move_left_button.png');
   game.load.image('moveRightButton', 'images/move_right_button.png');
   game.load.image('fireButton', 'images/shoot_button.png');
+  game.load.image('restartButton','images/restart.png');
 }

@@ -1,13 +1,14 @@
-var game = new Phaser.Game(750, 1200, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 1400, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 var bulletTime = 0,
     initialPlayerPosition = 512;
-    lives = 3,
+    lives = 1,
     score = 0,
     highScore = 0;
     maxVelocity = 500;
     left = false;
     right = false;
+    bombSpeed = 0;
 
 var style = { font: "32px silkscreen", fill: "#666666", align: "center" },
     boldStyle = { font: "bold 32px silkscreen", fill: "#ffffff", align: "center" };
@@ -17,16 +18,18 @@ function setupExplosion (explosion) {
 }
 
 function fireBullet () {
-  if (game.time.now > bulletTime) {
-    bullet = bullets.getFirstExists(false);
+  if (lives > 0 && player.alive) {
+    if (game.time.now > bulletTime) {
+      bullet = bullets.getFirstExists(false);
 
-    if (bullet) {
-      // And fire it
-      shootSound.play();
-      bullet.reset(player.x, player.y - 16);
-      bullet.body.velocity.y = -400;
-      bullet.body.velocity.x = player.body.velocity.x / 4
-      bulletTime = game.time.now + 400;
+      if (bullet) {
+        // And fire it
+        shootSound.play();
+        bullet.reset(player.x, player.y - 16);
+        bullet.body.velocity.y = -400;
+        bullet.body.velocity.x = player.body.velocity.x / 4
+        bulletTime = game.time.now + 400;
+      }
     }
   }
 }
@@ -39,6 +42,9 @@ function bulletHitsAlien (bullet, alien) {
 
   if (aliens.countLiving() == 0) {
     newWave();
+    bombSpeed += 10;
+    handleBombs(bombSpeed);
+    alert(bombSpeed);
   }
 }
 
@@ -101,9 +107,10 @@ function newWave () {
 
 function restartGame () {
   gameOverText.destroy();
-  restartText.destroy();
+  yourScoreText.destroy();
+  restartButton.destroy();
 
-  lives = 3
+  lives = 1
   score = 0
   updateScore();
   updateLivesText();
@@ -116,8 +123,12 @@ function gameOver () {
   setTimeout(function() {
     gameOverText = game.add.text(game.world.centerX, game.world.centerY, "YOU'RE PREGNANT. GAME OVER.", boldStyle);
     gameOverText.anchor.set(0.5, 0.5);
-    restartText = game.add.text(game.world.centerX, game.world.height - 16, "PRESS 'S' TO RESTART", style);
-    restartText.anchor.set(0.5, 1);
+
+    yourScoreText = game.add.text(game.world.centerX, game.world.centerY + 100, "YOU SCORED " + score + " POINTS!", boldStyle);
+    yourScoreText.anchor.set(0.5, 0.5);
+
+    restartButton = game.add.button(game.world.centerX - 160, game.world.centerY + 160, 'restartButton', restartGame);
+    restartButton.scale.setTo(2.5,2.5);
 
     Cookies.set('highScore', highScore, { expires: '2078-12-31' });
   }, 1000);
@@ -125,37 +136,40 @@ function gameOver () {
 
 function createAliens () {
   aliens = game.add.group();
-  aliens.scale.setTo(1.3,1.3);
+  aliens.scale.setTo(2.5,2.5);
   aliens.enableBody = true;
   aliens.physicsBodyType = Phaser.Physics.ARCADE;
 
+  //adjust # of rows and columns of aliens
   for (var y = 0; y < 4; y++) {
-    for (var x = 0; x < 7; x++) {
-      var alien = aliens.create(x * 72, y * 48, 'alien');
+    for (var x = 0; x < 6; x++) {
+      var alien = aliens.create(x * 40, y * 48, 'alien');
       alien.anchor.setTo(0.5, 0.5);
       alien.body.moves = false;
     }
   }
-
-  aliens.x = 20;
-  aliens.y = 96;
+  //position of aliens on game screen
+  aliens.x = 200;
+  aliens.y = 180;
 
   aliens.forEach(function (alien, i) {
+    //alien bodies wobble { y: alien.body.y + how far down}, speed, ...
     game.add.tween(alien).to( { y: alien.body.y + 5 }, 500, Phaser.Easing.Sinusoidal.InOut, true, game.rnd.integerInRange(0, 500), 1000, true);
   })
 }
 
 function animateAliens () {
   // All this does is basically start the invaders moving. Notice we're moving the Group they belong to, rather than the invaders directly.
-  var tween = game.add.tween(aliens).to( { x: 200 }, 2500, Phaser.Easing.Sinusoidal.InOut, true, 0, 1000, true);
+  // { x: how far left and right aliens move}, speed, ...
+  var tween = game.add.tween(aliens).to( { x: 100 }, 2500, Phaser.Easing.Sinusoidal.InOut, true, 0, 1000, true);
 
   // When the tween loops it calls descend
   tween.onLoop.add(descend, this);
 }
 
-function handleBombs () {
+function handleBombs (bombSpeed) {
   aliens.forEachAlive(function (alien) {
-    chanceOfDroppingBomb = game.rnd.integerInRange(0, 40 * aliens.countLiving());
+    chanceOfDroppingBomb = game.rnd.integerInRange(0, (40 - bombSpeed) * aliens.countLiving());
     if (chanceOfDroppingBomb == 0) {
       dropBomb(alien);
     }
@@ -175,9 +189,11 @@ function dropBomb (alien) {
   }
 }
 
+//descend aliens
 function descend () {
   if (player.alive) {
-    //aliens.y += 8;
+    //speed of descension 
+    aliens.y += 8;
     game.add.tween(aliens).to( { y: aliens.y + 8 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, false);
   }
 }
