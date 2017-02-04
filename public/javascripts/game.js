@@ -42,9 +42,7 @@ function bulletHitsAlien (bullet, alien) {
 
   if (aliens.countLiving() == 0) {
     newWave();
-    bombSpeed += 10;
     handleBombs(bombSpeed);
-    alert(bombSpeed);
   }
 }
 
@@ -112,6 +110,7 @@ function restartGame () {
 
   lives = 1
   score = 0
+  bombSpeed = 0;
   updateScore();
   updateLivesText();
 

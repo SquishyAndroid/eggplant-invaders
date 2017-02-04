@@ -47,3 +47,15 @@ footer {
 a {
   color: #444444;
 }
+
+#game {
+  display: none;
+}
+
+/* loader styles */
+#loader {
+  position: absolute;
+  left: 40%;
+  top: 50%;
+  z-index: 1;
+}
