@@ -9,6 +9,7 @@ var bulletTime = 0,
     left = false;
     right = false;
     bombSpeed = 0;
+    waveNumber = 1;
 
 var style = { font: "32px silkscreen", fill: "#666666", align: "center" },
     boldStyle = { font: "bold 32px silkscreen", fill: "#ffffff", align: "center" };
@@ -41,8 +42,14 @@ function bulletHitsAlien (bullet, alien) {
   updateScore();
 
   if (aliens.countLiving() == 0) {
+    waveNumber ++;
+    newWaveText = game.add.text(game.world.centerX, game.world.centerY, "WAVE " + waveNumber, boldStyle);
+    newWaveText.anchor.set(0.5, 0.5);
     newWave();
-    handleBombs(bombSpeed);
+    handleBombs();
+    setTimeout(function(){
+      newWaveText.destroy();
+    }, 1200)
   }
 }
 
@@ -166,9 +173,9 @@ function animateAliens () {
   tween.onLoop.add(descend, this);
 }
 
-function handleBombs (bombSpeed) {
+function handleBombs () {
   aliens.forEachAlive(function (alien) {
-    chanceOfDroppingBomb = game.rnd.integerInRange(0, (40 - bombSpeed) * aliens.countLiving());
+    chanceOfDroppingBomb = game.rnd.integerInRange(0, 40 * aliens.countLiving());
     if (chanceOfDroppingBomb == 0) {
       dropBomb(alien);
     }
