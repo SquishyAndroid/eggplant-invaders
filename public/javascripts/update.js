@@ -1,24 +1,28 @@
 function update () {
 
+player.body.velocity.x = 0;
+
   //move player left on button press
   if (left && player.body.velocity.x > -maxVelocity) {
-    player.body.velocity.x -= 20;
-  } else {
-    //slow down
-    if (player.body.velocity.x > 0){
-      player.body.velocity.x -= 4;
-    }
-  }
+    player.body.velocity.x -= 500;
+  } 
+  // else {
+  //   //slow down
+  //   if (player.body.velocity.x > 0){
+  //     player.body.velocity.x -= 4;
+  //   }
+  // }
 
   //move player right on button press
   if (right && player.body.velocity.x < maxVelocity) {
-    player.body.velocity.x += 20;
-  } else {
-    //slow down
-    if (player.body.velocity.x < 0){
-      player.body.velocity.x += 4;
-    }
-  }
+    player.body.velocity.x += 500;
+  } 
+  // else {
+  //   //slow down
+  //   if (player.body.velocity.x < 0){
+  //     player.body.velocity.x += 4;
+  //   }
+  // }
 
   // Firing?
   if (fireBullet.isDown && player.alive) {

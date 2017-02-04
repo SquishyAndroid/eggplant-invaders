@@ -193,7 +193,7 @@ function dropBomb (alien) {
 function descend () {
   if (player.alive) {
     //speed of descension 
-    aliens.y += 8;
+    // aliens.y += 8;
     game.add.tween(aliens).to( { y: aliens.y + 8 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, false);
   }
 }
