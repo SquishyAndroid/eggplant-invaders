@@ -53,10 +53,10 @@ function bulletHitsAlien (bullet, alien) {
 }
 
 function updateCurrentWave () {
-  waveNumber++;
-  if (bombRate < maxBombRate){
+  if (bombRate > maxBombRate){
     bombRate -= 2;
   }
+  waveNumber++;
   newWaveText = game.add.text(game.world.centerX, game.world.centerY, "WAVE " + waveNumber + " BOMB RATE: " + bombRate, boldStyle);
   newWaveText.anchor.set(0.5, 0.5);
   setTimeout(function(){
