@@ -8,7 +8,7 @@ var bulletTime = 0,
     maxVelocity = 500;
     left = false;
     right = false;
-    bombRate = 5;
+    bombRate = 50;
     maxBombRate = 10;
     waveNumber = 1;
 
