@@ -66,6 +66,19 @@ function bombHitsPlayer (bomb, player) {
   }
 }
 
+function alienHitsPlayer (alien, player) {
+  alien.kill();
+  explode(player);
+  lives -= 1;
+  updateLivesText();
+  if (lives > 0) {
+    respawnPlayer();
+  }
+  else {
+    gameOver();
+  }
+}
+
 function explode (entity) {
   entity.kill();
 
@@ -199,9 +212,9 @@ function dropBomb (alien) {
 function descend () {
   if (player.alive) {
     //speed of descension 
-    // aliens.y += 8;
-    game.add.tween(aliens).to( { y: aliens.y + 8 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, false);
-  }
+    // aliens.y += 18;
+    game.add.tween(aliens).to( { y: aliens.y + 12 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, false);
+  } 
 }
 
 function pad(number, length) {

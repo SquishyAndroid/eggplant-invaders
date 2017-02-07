@@ -76,7 +76,7 @@ function create () {
   moveLeftButton.events.onInputDown.add(function(){left=true;});
   moveLeftButton.events.onInputUp.add(function(){left=false;});
 
-  moveRightButton = game.add.button(game.world.centerX + 150, 1100, 'moveRightButton', null, this, 0,1,0,1);
+  moveRightButton = game.add.button(game.world.centerX + 180, 1100, 'moveRightButton', null, this, 0,1,0,1);
   moveRightButton.scale.setTo(2.3,2.3);
   moveRightButton.events.onInputOver.add(function(){right=true;});
   moveRightButton.events.onInputOut.add(function(){right=false;});

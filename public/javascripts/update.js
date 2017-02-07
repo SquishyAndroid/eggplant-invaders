@@ -12,7 +12,7 @@ function update () {
     player.body.velocity.x += 500;
   } 
 
-  // Firing?
+  // Fire bomb if player is alive
   if (fireBullet.isDown && player.alive) {
     fireBullet();
   }
@@ -24,4 +24,5 @@ function update () {
 
   game.physics.arcade.overlap(bullets, aliens, bulletHitsAlien, null, this);
   game.physics.arcade.overlap(bombs, player, bombHitsPlayer, null, this);
+  game.physics.arcade.overlap(aliens, player, alienHitsPlayer, null, this);
 }
