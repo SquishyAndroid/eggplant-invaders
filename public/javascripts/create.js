@@ -6,7 +6,7 @@ function create () {
   game.scale.setScreenSize(true);
 
   // Initialize player
-  player = game.add.sprite(initialPlayerPosition, 950, 'ship');
+  player = game.add.sprite(initialPlayerPosition, 980, 'ship');
   player.scale.setTo(0.16,0.16);
   player.anchor.setTo(0.5, 0.5);
   game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -31,7 +31,7 @@ function create () {
 
   // Initialize bombs
   bombs = game.add.group();
-  bombs.scale.setTo(1.5,1.5);
+  bombs.scale.setTo(1.4,1.4);
   bombs.enableBody = true;
   bombs.physicsBodyType = Phaser.Physics.ARCADE;
   bombs.createMultiple(10, 'bomb');
@@ -39,6 +39,7 @@ function create () {
   bombs.setAll('anchor.y', 0.5);
   bombs.setAll('checkWorldBounds', true);
   bombs.setAll('outOfBoundsKill', true);
+  bombs.forEach(setupBomb, this);
 
   // Initialize explosions
   explosions = game.add.group();
@@ -66,17 +67,17 @@ function create () {
   bombSound = game.add.audio('bomb', 1, false);
 
   // startButton = game.add.button(game.world.centerX - 95, 400, 'startButton', actionOnClick, this, 'down');
-  fireButton = game.add.button(game.world.centerX - 350, 1100, 'fireButton', fireBullet);
+  fireButton = game.add.button(game.world.centerX - 350, 1180, 'fireButton', fireBullet);
   fireButton.scale.setTo(2.5,2.5);
 
-  moveLeftButton = game.add.button(game.world.centerX - 30, 1100, 'moveLeftButton', null, this, 0,1,0,1);
+  moveLeftButton = game.add.button(game.world.centerX - 30, 1180, 'moveLeftButton', null, this, 0,1,0,1);
   moveLeftButton.scale.setTo(2.2,2.2);
   moveLeftButton.events.onInputOver.add(function(){left=true;});
   moveLeftButton.events.onInputOut.add(function(){left=false;});
   moveLeftButton.events.onInputDown.add(function(){left=true;});
   moveLeftButton.events.onInputUp.add(function(){left=false;});
 
-  moveRightButton = game.add.button(game.world.centerX + 180, 1100, 'moveRightButton', null, this, 0,1,0,1);
+  moveRightButton = game.add.button(game.world.centerX + 180, 1180, 'moveRightButton', null, this, 0,1,0,1);
   moveRightButton.scale.setTo(2.3,2.3);
   moveRightButton.events.onInputOver.add(function(){right=true;});
   moveRightButton.events.onInputOut.add(function(){right=false;});

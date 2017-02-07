@@ -8,7 +8,8 @@ var bulletTime = 0,
     maxVelocity = 500;
     left = false;
     right = false;
-    bombSpeed = 0;
+    bombRate = 5;
+    maxBombRate = 10;
     waveNumber = 1;
 
 var style = { font: "32px silkscreen", fill: "#666666", align: "center" },
@@ -16,6 +17,10 @@ var style = { font: "32px silkscreen", fill: "#666666", align: "center" },
 
 function setupExplosion (explosion) {
   explosion.animations.add('explode');
+}
+
+function setupBomb (bomb) {
+  bomb.animations.add('bomb', [0, 5], 10 , true);
 }
 
 function fireBullet () {
@@ -42,15 +47,21 @@ function bulletHitsAlien (bullet, alien) {
   updateScore();
 
   if (aliens.countLiving() == 0) {
-    waveNumber ++;
-    newWaveText = game.add.text(game.world.centerX, game.world.centerY, "WAVE " + waveNumber, boldStyle);
-    newWaveText.anchor.set(0.5, 0.5);
+    updateCurrentWave();
     newWave();
-    handleBombs();
-    setTimeout(function(){
-      newWaveText.destroy();
-    }, 1200)
   }
+}
+
+function updateCurrentWave () {
+  waveNumber++;
+  if (bombRate < maxBombRate){
+    bombRate -= 2;
+  }
+  newWaveText = game.add.text(game.world.centerX, game.world.centerY, "WAVE " + waveNumber + " BOMB RATE: " + bombRate, boldStyle);
+  newWaveText.anchor.set(0.5, 0.5);
+  setTimeout(function(){
+    newWaveText.destroy();
+  }, 1400)
 }
 
 function bombHitsPlayer (bomb, player) {
@@ -130,7 +141,8 @@ function restartGame () {
 
   lives = 1
   score = 0
-  bombSpeed = 0;
+  bombRate = 50;
+  waveNumber = 1;
   updateScore();
   updateLivesText();
 
@@ -155,21 +167,21 @@ function gameOver () {
 
 function createAliens () {
   aliens = game.add.group();
-  aliens.scale.setTo(2.5,2.5);
+  aliens.scale.setTo(1.4, 1.4);
   aliens.enableBody = true;
   aliens.physicsBodyType = Phaser.Physics.ARCADE;
 
   //adjust # of rows and columns of aliens
   for (var y = 0; y < 4; y++) {
     for (var x = 0; x < 6; x++) {
-      var alien = aliens.create(x * 40, y * 48, 'alien');
+      var alien = aliens.create(x * 75, y * 85, 'alien');
       alien.anchor.setTo(0.5, 0.5);
       alien.body.moves = false;
     }
   }
   //position of aliens on game screen
   aliens.x = 200;
-  aliens.y = 180;
+  aliens.y = 160;
 
   aliens.forEach(function (alien, i) {
     //alien bodies wobble { y: alien.body.y + how far down}, speed, ...
@@ -180,7 +192,7 @@ function createAliens () {
 function animateAliens () {
   // All this does is basically start the invaders moving. Notice we're moving the Group they belong to, rather than the invaders directly.
   // { x: how far left and right aliens move}, speed, ...
-  var tween = game.add.tween(aliens).to( { x: 100 }, 2500, Phaser.Easing.Sinusoidal.InOut, true, 0, 1000, true);
+  var tween = game.add.tween(aliens).to( { x: 60 }, 2600, Phaser.Easing.Sinusoidal.InOut, true, 0, 1000, true);
 
   // When the tween loops it calls descend
   tween.onLoop.add(descend, this);
@@ -188,7 +200,7 @@ function animateAliens () {
 
 function handleBombs () {
   aliens.forEachAlive(function (alien) {
-    chanceOfDroppingBomb = game.rnd.integerInRange(0, 40 * aliens.countLiving());
+    chanceOfDroppingBomb = game.rnd.integerInRange(0, bombRate * aliens.countLiving());
     if (chanceOfDroppingBomb == 0) {
       dropBomb(alien);
     }
@@ -202,6 +214,7 @@ function dropBomb (alien) {
 
     bombSound.play();
     // And drop it
+    bomb.play('bomb');
     bomb.reset(alien.x + aliens.x, alien.y + aliens.y + 16);
     bomb.body.velocity.y = +100;
     bomb.body.gravity.y = 250
