@@ -8,8 +8,8 @@ var bulletTime = 0,
     maxVelocity = 500;
     left = false;
     right = false;
-    bombRate = 50;
-    maxBombRate = 10;
+    bombRate = 60;
+    descentSpeed = 10;
     waveNumber = 1;
 
 var style = { font: "32px silkscreen", fill: "#666666", align: "center" },
@@ -53,15 +53,29 @@ function bulletHitsAlien (bullet, alien) {
 }
 
 function updateCurrentWave () {
-  if (bombRate > maxBombRate){
+  if (bombRate >= 10){
     bombRate -= 2;
   }
+
+  if (descentSpeed <= 40){
+    descentSpeed += 2;
+  }
+
   waveNumber++;
-  newWaveText = game.add.text(game.world.centerX, game.world.centerY, "WAVE " + waveNumber + " BOMB RATE: " + bombRate, boldStyle);
+  newWaveText = game.add.text(game.world.centerX, game.world.centerY, "WAVE " + waveNumber, boldStyle);
   newWaveText.anchor.set(0.5, 0.5);
+
+  bombRateText = game.add.text(game.world.centerX, game.world.centerY + 100, "BOMB RATE: " + bombRate, boldStyle);
+  bombRateText.anchor.set(0.5, 0.5);
+
+  descentSpeedText = game.add.text(game.world.centerX, game.world.centerY + 200, "DESCENT SPEED: " + descentSpeed, boldStyle);
+  descentSpeedText.anchor.set(0.5, 0.5);
+
   setTimeout(function(){
     newWaveText.destroy();
-  }, 1400)
+    bombRateText.destroy();
+    descentSpeedText.destroy();
+  }, 2000)
 }
 
 function bombHitsPlayer (bomb, player) {
@@ -152,7 +166,8 @@ function restartGame () {
 
   lives = 1
   score = 0
-  bombRate = 50;
+  bombRate = 60;
+  descentSpeed = 10;
   waveNumber = 1;
   updateScore();
   updateLivesText();
@@ -237,7 +252,7 @@ function descend () {
   if (player.alive) {
     //speed of descension 
     // aliens.y += 18;
-    game.add.tween(aliens).to( { y: aliens.y + 15 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, false);
+    game.add.tween(aliens).to( { y: aliens.y + descentSpeed }, 2500, Phaser.Easing.Linear.None, true, 0, 0, false);
   }
 }
 
