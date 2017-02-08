@@ -90,6 +90,17 @@ function alienHitsPlayer (alien, player) {
   }
 }
 
+// Game ends if aliens pass gamebase
+function alienHitsBase (alien, gameBase) {
+  // Only initialize if player is alive when aliens hit base
+  if (lives > 0 && player.alive){
+    explode(player);
+    gameOver();
+    lives -= 1;
+    updateLivesText();
+  }
+}
+
 function explode (entity) {
   entity.kill();
 
@@ -226,8 +237,8 @@ function descend () {
   if (player.alive) {
     //speed of descension 
     // aliens.y += 18;
-    game.add.tween(aliens).to( { y: aliens.y + 12 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, false);
-  } 
+    game.add.tween(aliens).to( { y: aliens.y + 15 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, false);
+  }
 }
 
 function pad(number, length) {

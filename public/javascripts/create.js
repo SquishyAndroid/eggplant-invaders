@@ -66,6 +66,12 @@ function create () {
   explodeSound = game.add.audio('explode', 1, false);
   bombSound = game.add.audio('bomb', 1, false);
 
+  // Add gamebase 
+  gameBase = game.add.sprite(game.world.centerX, 960,'gameBase');
+  gameBase.anchor.setTo(0.5, 0.5);
+  gameBase.enableBody = true;
+  game.physics.enable(gameBase, Phaser.Physics.ARCADE);
+
   // startButton = game.add.button(game.world.centerX - 95, 400, 'startButton', actionOnClick, this, 'down');
   fireButton = game.add.button(game.world.centerX - 350, 1180, 'fireButton', fireBullet);
   fireButton.scale.setTo(2.5,2.5);

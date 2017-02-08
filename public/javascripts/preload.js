@@ -4,6 +4,7 @@ function preload () {
   game.load.image('alien', 'images/8-bit-eggplant-bigger.png');
   game.load.spritesheet('bomb', 'images/sperm.png', 28, 64);
   game.load.spritesheet('explosion', 'images/explosion.png', 80, 80);
+  game.load.image('gameBase', 'images/gamebase.png');
 
   game.load.audio('shoot', 'sounds/shoot.wav');
   game.load.audio('explode', 'sounds/explode.wav');
