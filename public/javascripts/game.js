@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 1400, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 1600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 var bulletTime = 0,
     initialPlayerPosition = 512;
@@ -12,8 +12,16 @@ var bulletTime = 0,
     descentSpeed = 10;
     waveNumber = 1;
 
-var style = { font: "32px silkscreen", fill: "#666666", align: "center" },
-    boldStyle = { font: "bold 32px silkscreen", fill: "#ffffff", align: "center" };
+var safetyTips = [
+"Twice as nice doesn’t apply to condoms. Don’t double up!",
+"You might want things to get hot – but not your condoms. Keep yours in a cool and safe place.",
+"The use of condoms is the only proven method for reducing the transmission of HIV and other STDs – 5 billion condoms are used worldwide each year. High five – let’s get that number higher next year!",
+"Condom sizes don't actually vary that much. In fact, Magnum and Magnum XL are the exact same length and width and only millimeters bigger than the smallest sizes. It was all pretty much a marketing thing.",
+"\"Can you reuse a condom?\" produces over 415,000 results on Google. Just don't!"
+];
+
+var style = { font: "32px silkscreen", fill: "#666666", align: "center"},
+    boldStyle = { font: "bold 32px silkscreen", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 800};
 
 function setupExplosion (explosion) {
   explosion.animations.add('explode');
@@ -177,9 +185,12 @@ function restartGame () {
 }
 
 function gameOver () {
+
+  var randomTip = safetyTips[Math.floor(Math.random() * safetyTips.length)];
+
   setTimeout(function() {
-    gameOverText = game.add.text(game.world.centerX, game.world.centerY, "YOU'RE PREGNANT. GAME OVER.", boldStyle);
-    gameOverText.anchor.set(0.5, 0.5);
+    gameOverText = game.add.text(game.world.centerX, game.world.centerY - 100, randomTip, boldStyle);
+    gameOverText.anchor.set(0.5);
 
     yourScoreText = game.add.text(game.world.centerX, game.world.centerY + 100, "YOU SCORED " + score + " POINTS!", boldStyle);
     yourScoreText.anchor.set(0.5, 0.5);
@@ -188,6 +199,7 @@ function gameOver () {
     restartButton.scale.setTo(2.5,2.5);
 
     Cookies.set('highScore', highScore, { expires: '2078-12-31' });
+    randomTip = "";
   }, 1000);
 }
 

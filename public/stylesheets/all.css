@@ -29,9 +29,9 @@ body {
 }
 
 h1 {
-  top: 30px;
   width: 100%;
-  font-size: 3em;
+  padding-top: 80px;
+  font-size: 2.5em;
   text-align: center;
   margin: 0;
 }
@@ -54,11 +54,13 @@ a {
 }
 
 #game-title {
-  font-size: 6em;
+  font-size: 5.5em;
 }
 
 #play-game {
   -webkit-appearance: none;
+  font-family: 'silkscreen';
+  color: white;
   font-size: 5em;
   margin-top: 3em;
   padding: 50px 80px 50px 80px;
@@ -76,7 +78,7 @@ a {
 /* loader styles */
 #loader {
   position: absolute;
-  left: 40%;
+  left: 30%;
   top: 50%;
   z-index: 1;
 }
