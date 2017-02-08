@@ -3,11 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index.hbs', {
-    userName: 'Brad',
-    pageTitle: 'Home',
-    welcomeMessage: 'Welcome to my website!',
-  })
+  res.render('index.hbs')
+});
+
+/* GET home page. */
+router.get('/game', function (req, res, next) {
+  res.render('game.hbs')
 });
 
 module.exports = router;

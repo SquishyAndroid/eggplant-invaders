@@ -29,7 +29,6 @@ body {
 }
 
 h1 {
-  position: absolute;
   top: 30px;
   width: 100%;
   font-size: 3em;
@@ -46,6 +45,28 @@ footer {
 
 a {
   color: #444444;
+}
+
+#home-screen {
+  text-align: center;
+  padding-top: 50%;
+  display: none;
+}
+
+#game-title {
+  font-size: 6em;
+}
+
+#play-game {
+  -webkit-appearance: none;
+  font-size: 5em;
+  margin-top: 3em;
+  padding: 50px 80px 50px 80px;
+  background-color: green;
+}
+
+#play-game:focus, #play-game:hover {
+  background-color: #1fb71f;
 }
 
 #game {
